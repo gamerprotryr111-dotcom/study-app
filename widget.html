@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Расписание</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 100vh;
+  }
+  .lesson {
+    background: rgba(255,255,255,0.2);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+  }
+  .lesson-number {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  .lesson-time {
+    font-size: 0.9em;
+    opacity: 0.9;
+  }
+  .empty {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+  <h2>📅 Сегодня</h2>
+  <div id="todaySchedule"></div>
+  
+  <script>
+    const data = JSON.parse(localStorage.getItem('studyData')) || {schedule: {}};
+    const days = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+    const today = days[new Date().getDay()];
+    
+    // Маппинг русских дней
+    const dayMap = {
+      'Понедельник': 'Понедельник',
+      'Вторник': 'Вторник',
+      'Среда': 'Среда',
+      'Четверг': 'Четверг',
+      'Пятница': 'Пятница',
+      'Суббота': 'Суббота'
+    };
+    
+    const lessons = data.schedule[dayMap[today]] || [];
+    const container = document.getElementById('todaySchedule');
+    
+    if (lessons.length === 0) {
+      container.innerHTML = '<div class="empty">Сегодня нет уроков 🎉</div>';
+    } else {
+      lessons.sort((a,b) => a.time.localeCompare(b.time));
+      lessons.forEach(l => {
+        container.innerHTML += `
+          <div class="lesson">
+            <div class="lesson-number">№${l.number} ${l.name}</div>
+            <div class="lesson-time">⏰ ${l.time} 📍 ${l.room || '—'}</div>
+          </div>
+        `;
+      });
+    }
+    
+    // Автообновление каждые 5 минут
+    setInterval(() => location.reload(), 300000);
+  </script>
+</body>
+</html>
