@@ -1,13 +1,12 @@
 const CACHE_NAME = 'study-app-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  '/study-app/',
+  '/study-app/index.html',
+  '/study-app/manifest.json',
+  '/study-app/icon-192.png',
+  '/study-app/icon-512.png'
 ];
 
-// Установка Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -15,7 +14,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Перехват запросов
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -23,7 +21,6 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Обновление кэша
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
