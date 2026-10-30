@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#667eea">
 <title>Учебный центр</title>
 
-<!-- НОВОЕ: Добавлено для PWA -->
 <link rel="manifest" href="/study-app/manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,7 +22,7 @@
     min-height: 100vh;
     padding: 15px;
     color: #333;
-    transition: background 0.3s;
+    transition: background 0.5s ease;
   }
   
   body.dark-theme {
@@ -38,7 +37,7 @@
     border-radius: 15px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     padding: 20px;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.5s ease, color 0.5s ease;
   }
   
   body.dark-theme .container {
@@ -58,6 +57,7 @@
     color: #4a4a8e;
     font-size: 1.6em;
     flex: 1;
+    transition: color 0.3s ease;
   }
   
   body.dark-theme h1 { color: #a0a0ff; }
@@ -72,6 +72,16 @@
     font-size: 14px;
     white-space: nowrap;
     min-height: 44px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .theme-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+  
+  .theme-toggle:active {
+    transform: scale(0.95);
   }
   
   .tabs {
@@ -94,31 +104,67 @@
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
     flex-shrink: 0;
     min-height: 44px;
+    position: relative;
+    overflow: hidden;
   }
   
   body.dark-theme .tab { background: #2a2a3e; color: #e0e0e0; }
   
+  .tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+  
+  .tab:active {
+    transform: translateY(0) scale(0.98);
+  }
+  
   .tab.active {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
   }
   
-  .section { display: none; }
-  .section.active { display: block; }
+  .section { 
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .section.active { 
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInUp 0.5s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
   h2 {
     color: #4a4a8e;
     margin-bottom: 15px;
     font-size: 1.4em;
+    transition: color 0.3s ease;
   }
   
   body.dark-theme h2 { color: #a0a0ff; }
   
-  h3 { color: #4a4a8e; margin-bottom: 15px; }
+  h3 { color: #4a4a8e; margin-bottom: 15px; transition: color 0.3s ease; }
   body.dark-theme h3 { color: #a0a0ff; }
   
   .schedule {
@@ -133,6 +179,12 @@
     border-radius: 12px;
     padding: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .day:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
   }
   
   body.dark-theme .day {
@@ -159,6 +211,24 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideIn 0.4s ease;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .lesson:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
   }
   
   body.dark-theme .lesson { background: #2a2a3e; }
@@ -177,10 +247,15 @@
     font-weight: bold;
     font-size: 1.1em;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  
+  .lesson:hover .lesson-number {
+    transform: scale(1.1) rotate(10deg);
   }
   
   .lesson-details { flex: 1; min-width: 0; }
-  .lesson-time { font-weight: bold; color: #667eea; }
+  .lesson-time { font-weight: bold; color: #667eea; transition: color 0.3s ease; }
   .lesson-name { margin-top: 4px; word-wrap: break-word; }
   .lesson-room { font-size: 0.85em; color: #888; margin-top: 2px; }
   
@@ -195,6 +270,16 @@
     font-size: 18px;
     flex-shrink: 0;
     min-width: 32px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: #ff5252;
+  }
+  
+  .delete-btn:active {
+    transform: scale(0.9);
   }
   
   .add-form {
@@ -202,6 +287,7 @@
     padding: 15px;
     border-radius: 12px;
     margin-top: 20px;
+    transition: background 0.3s ease;
   }
   
   body.dark-theme .add-form { background: #2a2a3e; }
@@ -220,6 +306,14 @@
     font-size: 16px;
     width: 100%;
     min-height: 44px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    transform: scale(1.01);
   }
   
   body.dark-theme input, body.dark-theme select, body.dark-theme textarea {
@@ -239,6 +333,18 @@
     font-weight: bold;
     min-height: 48px;
     width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .btn:active {
+    transform: translateY(0) scale(0.98);
   }
   
   .btn-secondary {
@@ -250,6 +356,16 @@
     cursor: pointer;
     font-size: 14px;
     min-height: 40px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    background: #ff5252;
+  }
+  
+  .btn-secondary:active {
+    transform: scale(0.95);
   }
   
   .task-item, .exam-item {
@@ -259,6 +375,18 @@
     margin-bottom: 10px;
     border-left: 4px solid #667eea;
     word-wrap: break-word;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.4s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .task-item:hover, .exam-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
   }
   
   body.dark-theme .task-item, body.dark-theme .exam-item {
@@ -292,6 +420,11 @@
     text-align: left;
     border-bottom: 1px solid #ddd;
     word-break: break-word;
+    transition: background 0.3s ease;
+  }
+  
+  .grade-table tr:hover td {
+    background: rgba(102, 126, 234, 0.1);
   }
   
   body.dark-theme .grade-table th, body.dark-theme .grade-table td {
@@ -307,6 +440,11 @@
     font-size: 1.5em;
     margin: 15px 0;
     word-wrap: break-word;
+    transition: transform 0.3s ease;
+  }
+  
+  .timer-display:hover {
+    transform: scale(1.02);
   }
   
   .achievement {
@@ -318,6 +456,19 @@
     align-items: center;
     gap: 12px;
     color: #333;
+    transition: transform 0.3s ease;
+    animation: bounceIn 0.6s ease;
+  }
+  
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  .achievement:hover {
+    transform: scale(1.02);
   }
   
   .achievement-icon { font-size: 1.8em; }
@@ -337,6 +488,13 @@
     font-size: 12px;
     text-align: center;
     overflow: hidden;
+    transition: transform 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .calendar-day:hover {
+    transform: scale(1.1);
+    background: #e0e4ff;
   }
   
   body.dark-theme .calendar-day { background: #2a2a3e; }
@@ -364,6 +522,11 @@
     padding: 20px;
     border-radius: 12px;
     text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
   }
   
   .stat-number { font-size: 2em; font-weight: bold; }
@@ -382,15 +545,15 @@
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     z-index: 1000;
     display: none;
-    animation: slideDown 0.3s;
+    animation: slideDown 0.4s ease;
+  }
+  
+  @keyframes slideDown {
+    from { top: -100px; opacity: 0; }
+    to { top: 20px; opacity: 1; }
   }
   
   .notification.error { background: #ff6b6b; }
-  
-  @keyframes slideDown {
-    from { top: -50px; opacity: 0; }
-    to { top: 20px; opacity: 1; }
-  }
   
   .hint {
     font-size: 0.85em;
@@ -439,13 +602,13 @@
     </div>
     
     <div class="tabs" id="tabs">
-      <button class="tab active" data-section="schedule">📅 Расписание</button>
+      <button class="tab active" data-section="schedule"> Расписание</button>
       <button class="tab" data-section="homework">📝 Задания</button>
       <button class="tab" data-section="grades">📊 Оценки</button>
       <button class="tab" data-section="timer">⏰ Таймер</button>
       <button class="tab" data-section="notes">📓 Заметки</button>
       <button class="tab" data-section="exams">🎓 Экзамены</button>
-      <button class="tab" data-section="achievements">🏆 Достижения</button>
+      <button class="tab" data-section="achievements"> Достижения</button>
       <button class="tab" data-section="calendar">📆 Календарь</button>
       <button class="tab" data-section="export">💾 Экспорт</button>
     </div>
@@ -467,17 +630,15 @@
         </div>
         <div class="hint">💡 Номер пары проставится автоматически по времени, но ты можешь изменить его</div>
         <button class="btn" id="addLessonBtn">Добавить</button>
-        
-        <!-- НОВОЕ: Кнопка для включения уведомлений -->
         <button class="btn" id="enableNotifBtn" style="margin-top: 15px; background: linear-gradient(135deg, #ff9a56, #ff6b6b);">🔔 Включить уведомления об уроках</button>
       </div>
     </div>
 
     <div id="homework" class="section">
-      <h2>📝 Домашние задания</h2>
+      <h2> Домашние задания</h2>
       <div id="tasksList"></div>
       <div class="add-form">
-        <h3>➕ Добавить задание</h3>
+        <h3> Добавить задание</h3>
         <div class="form-row">
           <input type="text" id="taskSubject" placeholder="Предмет">
           <input type="text" id="taskDesc" placeholder="Описание">
@@ -488,7 +649,7 @@
     </div>
 
     <div id="grades" class="section">
-      <h2>📊 Журнал оценок</h2>
+      <h2> Журнал оценок</h2>
       <div style="overflow-x: auto;">
         <table class="grade-table">
           <thead>
@@ -508,7 +669,7 @@
     </div>
 
     <div id="timer" class="section">
-      <h2>⏰ До следующего урока</h2>
+      <h2> До следующего урока</h2>
       <div class="timer-display" id="timerDisplay">Загрузка...</div>
       <div id="nextLessonInfo"></div>
     </div>
@@ -539,7 +700,7 @@
     </div>
 
     <div id="achievements" class="section">
-      <h2> Достижения и статистика</h2>
+      <h2>🏆 Достижения и статистика</h2>
       <div class="stats-grid" id="statsGrid"></div>
       <h3 style="margin-top: 25px;">Награды</h3>
       <div id="achievementsList"></div>
@@ -559,7 +720,7 @@
       <h2>💾 Экспорт данных</h2>
       <p style="margin-bottom: 20px;">Скачай все свои данные в текстовом формате</p>
       <button class="btn" id="exportBtn">📥 Скачать данные</button>
-      <button class="btn btn-secondary" id="clearBtn" style="margin-top: 10px;">️ Очистить всё</button>
+      <button class="btn btn-secondary" id="clearBtn" style="margin-top: 10px;">🗑️ Очистить всё</button>
     </div>
   </div>
 
@@ -617,9 +778,17 @@
   document.getElementById('tabs').addEventListener('click', (e) => {
     if (e.target.classList.contains('tab')) {
       const section = e.target.dataset.section;
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => {
+        s.classList.remove('active');
+        s.style.opacity = '0';
+        s.style.transform = 'translateY(20px)';
+      });
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById(section).classList.add('active');
+      
+      setTimeout(() => {
+        document.getElementById(section).classList.add('active');
+      }, 50);
+      
       e.target.classList.add('active');
       
       if (section === 'timer') updateTimer();
@@ -725,8 +894,8 @@
       div.className = 'task-item' + (t.done ? ' done' : '');
       div.innerHTML = `
         <strong>${t.subject}</strong>: ${t.desc}
-        <div> До: ${t.deadline}</div>
-        <button class="toggle-task" data-idx="${i}">${t.done ? '↩️ Вернуть' : '✅ Готово'}</button>
+        <div>📅 До: ${t.deadline}</div>
+        <button class="toggle-task" data-idx="${i}">${t.done ? '️ Вернуть' : '✅ Готово'}</button>
         <button class="btn-secondary delete-task" data-idx="${i}">🗑️ Удалить</button>
       `;
       list.appendChild(div);
@@ -923,9 +1092,9 @@
       div.className = 'exam-item';
       div.innerHTML = `
         <strong>${e.name}</strong>
-        <div> ${e.date}</div>
+        <div>📅 ${e.date}</div>
         <div class="countdown">${diff > 0 ? `Осталось ${diff} дн.` : diff === 0 ? 'Сегодня!' : 'Прошло'}</div>
-        <button class="btn-secondary delete-exam" data-idx="${i}" style="margin-top: 10px;">🗑️ Удалить</button>
+        <button class="btn-secondary delete-exam" data-idx="${i}" style="margin-top: 10px;">️ Удалить</button>
       `;
       list.appendChild(div);
     });
@@ -983,7 +1152,7 @@
     if (data.stats.tasksDone >= 1) achievements.push({icon: '🎯', title: 'Первый шаг', desc: 'Выполни первое задание'});
     if (data.stats.tasksDone >= 10) achievements.push({icon: '🔥', title: 'На огне', desc: '10 заданий выполнено'});
     if (data.stats.lessonsAdded >= 5) achievements.push({icon: '📚', title: 'Книжный червь', desc: '5 уроков добавлено'});
-    if (Object.keys(data.grades).length >= 3) achievements.push({icon: '', title: 'Студент', desc: '3 предмета в журнале'});
+    if (Object.keys(data.grades).length >= 3) achievements.push({icon: '🎓', title: 'Студент', desc: '3 предмета в журнале'});
     
     if (achievements.length === 0) {
       list.innerHTML = '<div class="empty">Выполняй задания и добавляй уроки, чтобы получить достижения!</div>';
@@ -1091,7 +1260,6 @@
     }
   });
   
-  // НОВОЕ: Код для уведомлений
   document.getElementById('enableNotifBtn').addEventListener('click', async () => {
     if (!('Notification' in window)) {
       showNotification('Уведомления не поддерживаются', true);
@@ -1107,7 +1275,6 @@
     }
   });
   
-  // НОВОЕ: Функция проверки уведомлений
   function startNotificationChecker() {
     setInterval(() => {
       const now = new Date();
@@ -1126,8 +1293,8 @@
           if (!sessionStorage.getItem(notifKey)) {
             new Notification('📚 Скоро урок!', {
               body: `№${l.number} ${l.name} в ${l.time}`,
-              icon: 'icon-192.png',
-              badge: 'icon-192.png',
+              icon: '/study-app/icon-192.png',
+              badge: '/study-app/icon-192.png',
               tag: l.time
             });
             sessionStorage.setItem(notifKey, '1');
@@ -1137,7 +1304,6 @@
     }, 60000);
   }
   
-  // НОВОЕ: Запуск при загрузке
   if (Notification.permission === 'granted') {
     startNotificationChecker();
   }
@@ -1150,16 +1316,18 @@
   
   document.getElementById('lessonNumber').value = getNextLessonNumber(document.getElementById('lessonDay').value);
 </script>
+
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/study-app/sw.js')
       .then(registration => {
-        console.log('Service Worker зарегистрирован:', registration);
+        console.log('Service Worker зарегистрирован');
       })
       .catch(error => {
-        console.log('Ошибка регистрации Service Worker:', error);
+        console.log('Ошибка:', error);
       });
   }
 </script>
+
 </body>
 </html>
